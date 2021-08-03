@@ -1,0 +1,5 @@
+.DS_Store
+**/.idea/
+**/generated
+server/server
+node_modules/

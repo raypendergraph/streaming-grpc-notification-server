@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package notifications;
+option go_package = "/notifications";
+
+service NotificationService {
+  rpc SendMessage(SendMessageRequest) returns (SendMessageResponse) {}
+  rpc Subscribe (SubscribeRequest) returns (stream MessageEvent) {}
+  rpc Unsubscribe (UnsubscribeRequest) returns (UnsubscribeResponse) {}
+}
+
+message SubscribeRequest {
+  string id = 1;
+}
+
+message MessageEvent {
+  string sender = 1;
+  string message = 2;
+  bool isBroadcast = 3;
+}
+
+message UnsubscribeRequest {
+  string id = 1;
+}
+
+message UnsubscribeResponse {}
+
+message SendMessageRequest {
+  string sender = 1;
+  string recipient = 2;
+  string message = 3;
+}
+
+message SendMessageResponse {}
