@@ -3,12 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
+	"google.golang.org/grpc"
 	"log"
 	"net"
+	"net/http"
+	_ "net/http/pprof"
 	pb "server/generated/notifications"
 	"sync"
-
-	"google.golang.org/grpc"
 )
 
 var (
@@ -105,7 +106,15 @@ func main() {
 		fmt.Printf("grpc server starting on [%s] \n", listen.Addr().String())
 		panic(server.Serve(listen))
 	}()
-
+	go func() {
+		defer close(done)
+		listen, err := net.Listen("tcp", ":8000")
+		if err != nil {
+			log.Fatalf("failed to listen: %v", err)
+		}
+		fmt.Printf("http server starting on [%s] \n", listen.Addr().String())
+		panic(http.Serve(listen, nil))
+	}()
 	<-done
 	fmt.Println("It's been fun...")
 }
