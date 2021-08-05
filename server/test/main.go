@@ -8,7 +8,7 @@ import (
 	"server/generated/notifications"
 	"time"
 )
-const connections = 50000
+const connections = 250000
 
 func main()  {
 	conn, err := grpc.Dial("localhost:8888", grpc.WithInsecure())
@@ -43,7 +43,7 @@ func runTest(id int, client notifications.NotificationServiceClient) {
 		}
 
 		//What a moment
-		<-time.NewTimer(time.Duration(rand.Intn(500))  * time.Millisecond).C
+		<-time.NewTimer(time.Duration(rand.Intn(1500))  * time.Millisecond).C
 	}
 
 }

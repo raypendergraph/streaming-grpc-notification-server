@@ -22,3 +22,10 @@ make run-server
 make run-client
 ```
 
+# Profiling
+The main is set up to profile. Long story short is most of the memory is allocated in the Subscribe function where 
+the client channel is allocated. I was able to serve 250K clients in under 1GB. 
+
+```bash
+go tool pprof --pdf server/server server/profiles/<profile>.pprof > <profile>.pdf
+```
